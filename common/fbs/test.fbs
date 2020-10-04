@@ -1,0 +1,11 @@
+namespace mbbsd_fbs;
+
+table TestUserLogin {
+    pid:int64;
+    uid:int32;
+    userid:string;
+    ip:[uint8];
+    timestamp:int64;
+}
+
+root_type TestUserLogin;

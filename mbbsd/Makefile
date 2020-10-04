@@ -59,6 +59,7 @@ USE_BBSLUA!=  	sh -c '${DEF_CMD}"USE_BBSLUA" ${BBSCONF} ${DEF_YES}'
 USE_PFTERM!=	sh -c '${DEF_CMD}"USE_PFTERM" ${BBSCONF} ${DEF_YES}'
 USE_NIOS!=	sh -c '${DEF_CMD}"USE_NIOS"   ${BBSCONF} ${DEF_YES}'
 USE_CONVERT!=	sh -c '${DEF_CMD}"CONVERT"    ${BBSCONF} ${DEF_YES}'
+USE_MBBSD_CXX!=	sh -c '${DEF_CMD}"USE_MBBSD_CXX" ${BBSCONF} ${DEF_YES}'
 
 .if $(USE_BBSLUA)
 .if $(OSTYPE)=="FreeBSD"
@@ -78,6 +79,12 @@ OBJS+=		bbslua.o bbsluaext.o
 OBJS+=		pfterm.o
 .else
 OBJS+=		screen.o
+.endif
+
+.if $(USE_MBBSD_CXX)
+CXXFLAGS+=	-std=c++14 -I$(SRCROOT)/common/fbs
+LDLIBS+=	-lflatbuffers -lstdc++
+OBJS+=		test_fbs.o
 .endif
 
 #######################################################################
@@ -106,6 +113,7 @@ $(PROG): testsz $(OBJS)
 	@[ -z "$(USE_PFTERM)" ] || echo -n "+PFTERM "
 	@[ -z "$(USE_CONVERT)" ] || echo -n "+CONVERT "
 	@[ -z "$(USE_NIOS)" ] || echo -n "+NIOS "
+	@[ -z "$(USE_MBBSD_CXX)" ] || echo -n "+CXX "
 	@printf "\033[m"
 	$(CC) vers.c -o $(PROG) $(OBJS) $(LDFLAGS) $(LDLIBS)
 

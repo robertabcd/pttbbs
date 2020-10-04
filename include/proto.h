@@ -863,4 +863,7 @@ int  pwcuInitAdminPerm	(void);
 int verify_captcha(const char *reason);
 const char *remote_captcha();
 
+// tset fbs
+void do_test_fbs();
+
 #endif

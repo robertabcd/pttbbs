@@ -1812,6 +1812,10 @@ main(int argc, char *argv[], char *envp[])
     free_program_option(option);
     is_login_ready = 1;
 
+#ifdef USE_MBBSD_CXX
+    do_test_fbs();
+#endif
+
     // tail recursion!
     return main_menu();
 }
